@@ -5,16 +5,18 @@ const db = new Firestore({
   projectId: "final-project-348717",
 });
 
-const docRef = db.collection("users").doc("Catalin");
+module.exports = db;
 
-async function createUser() {
-  await docRef.set({
-    name: "Chiriac Catalin",
-    birtdate: "10/05/2005",
-    email: "chiriac13@yahoo.com",
-    address: "Iasi, Iasi, Romania",
-    profileImageUrl: "someUrl"
-  });
-}
+// const docRef = db.collection("users").doc("Catalin");
 
-createUser();
+// async function createUser() {
+//   await docRef.set({
+//     name: "Chiriac Catalin",
+//     birtdate: "10/05/2005",
+//     email: "chiriac13@yahoo.com",
+//     address: "Iasi, Iasi, Romania",
+//     profileImageUrl: "someUrl"
+//   });
+// }
+
+// createUser();
