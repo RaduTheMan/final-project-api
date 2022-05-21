@@ -12,6 +12,16 @@ module.exports.findUserById = async function (id) {
   }
 };
 
+module.exports.postUser = async function (data, uid) {
+  try {
+    const res = await db.collection('users').doc(uid).set(data);
+    return true;
+  }
+  catch {
+    return false;
+  }
+};
+
 // const docRef = db.collection("users").doc("Catalin");
 // async function createUser() {
 //   await docRef.set({

@@ -11,3 +11,15 @@ exports.getUser = (req, res, next) => {
     }
   });
 };
+
+exports.createUser = (req, res, next) => {
+  const data = req.body;
+  const userId = req.params.userId;
+  userModel.postUser(data, userId).then(response => {
+    if (!response) {
+      res.status(500).json({ errorMessage: "User not created" });
+    } else {
+      res.status(201).json({ successMessage: "User created" });
+    }
+  });
+};

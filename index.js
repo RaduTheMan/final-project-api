@@ -6,9 +6,9 @@ const userRoutes = require("./routes/user-profile");
 const errorController = require("./controllers/error");
 
 const app = express();
-
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api", userRoutes);
 app.use(errorController.get404);
