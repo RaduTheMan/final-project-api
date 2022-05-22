@@ -6,6 +6,7 @@ const cors = require('cors');
 
 
 const userRoutes = require("./routes/user-profile");
+const postRoutes = require("./routes/post");
 const imageRoutes = require("./routes/image.js");
 const errorController = require("./controllers/error");
 
@@ -20,6 +21,7 @@ app.use(cors());
 
 app.use("/api", userRoutes);
 app.use("/api", imageRoutes);
+app.use("/api", postRoutes);
 app.use(errorController.get404);
 
 
