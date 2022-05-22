@@ -2,8 +2,8 @@ const db = require("../util/database");
 
 
 
-module.exports.findUserById = async function (id) {
-  const docRef = db.collection("users").doc(id);
+module.exports.findUserById = async function (uid) {
+  const docRef = db.collection("users").doc(uid);
   const doc = await docRef.get();
   if (!doc.exists) {
     return null;
@@ -21,6 +21,17 @@ module.exports.postUser = async function (data, uid) {
     return false;
   }
 };
+
+module.exports.uploadImageProfile = async function(imageUrl, uid){
+  const docRef = db.collection("users").doc(uid);
+  try{
+    const res = await docRef.update({imageUrl: imageUrl});
+    return true;
+  }
+  catch{
+    return false;
+  }
+}
 
 // const docRef = db.collection("users").doc("Catalin");
 // async function createUser() {
