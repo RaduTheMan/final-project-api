@@ -3,12 +3,37 @@ const bodyParser = require("body-parser");
 const multer = require('multer');
 const forms = multer();
 const cors = require('cors'); 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 
 const userRoutes = require("./routes/user-profile");
 const postRoutes = require("./routes/post");
 const imageRoutes = require("./routes/image.js");
 const errorController = require("./controllers/error");
+
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Writify API",
+      contact: {
+        name: "Anghelus Vlad, Chiriac Catalin, Damian Radu, Dascalu Andrei"
+      }
+    },
+    servers: [
+      {
+        url: "http://localhost:8082"
+      }
+    ]
+  },
+  apis: ["./controllers/user.js"]
+};
+
+const specs = swaggerJsDoc(options);
+
+
 
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -17,6 +42,8 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 //app.use(express.json());
 app.use(cors());
 //app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 
 app.use("/api", userRoutes);
