@@ -64,3 +64,13 @@ exports.getPosts = (req, res, next) => {
     }
   });
 };
+
+exports.getAllPosts = (req, res, next) => {
+  postModel.findAllPosts().then( response => {
+    if (response) {
+      res.status(200).json(response);
+    } else {
+      res.status(500).json({ errorMessage: "Error getting posts " });
+    }
+  });
+}

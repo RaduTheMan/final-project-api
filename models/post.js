@@ -2,7 +2,7 @@ const db = require("../util/database");
 
 module.exports.createPost = async function (uid, data) {
   try {
-    console.log(data);
+    // console.log(data);
     const res = await db
       .collection("users")
       .doc(uid)
@@ -15,7 +15,7 @@ module.exports.createPost = async function (uid, data) {
 };
 
 module.exports.findPostsByUserId = async function (uid, lastDate) {
-  console.log(uid, lastDate);
+  // console.log(uid, lastDate);
   let first;
   if (lastDate) {
     first = db
@@ -24,7 +24,7 @@ module.exports.findPostsByUserId = async function (uid, lastDate) {
       .startAt(lastDate)
       .limit(10);
   } else {
-    console.log("HERE in else");
+    // console.log("HERE in else");
     first = db
       .collection(`users/${uid}/posts`)
       .orderBy("date", "desc")
@@ -32,10 +32,23 @@ module.exports.findPostsByUserId = async function (uid, lastDate) {
   }
   try {
     const snapshot = await first.get();
-    console.log(snapshot.docs.map((doc) => doc.data()));
+    // console.log(snapshot.docs.map((doc) => doc.data()));
     return snapshot.docs.map((doc) => doc.data());
   } catch {
     // console.log("Error getting posts");
+    return null;
+  }
+};
+
+module.exports.findAllPosts = async function () {
+  try {
+    const querySnapshot = await db
+      .collectionGroup("posts")
+      .orderBy("date", "desc")
+      .limit(100)
+      .get();
+    return querySnapshot.docs.map((doc) => doc.data());
+  } catch {
     return null;
   }
 };
