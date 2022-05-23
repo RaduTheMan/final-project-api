@@ -38,7 +38,7 @@ exports.createPost = (req, res, next) => {
     const data = {
       title: req.body.title,
       content: req.body.content,
-      date: new Date(),
+      date: Date.now(),
       userId: userId,
       name: req.body.name,
       userImgUrl: req.body.imgUrl,
