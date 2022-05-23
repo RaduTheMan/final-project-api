@@ -7,5 +7,7 @@ const router = express.Router();
 router.post("/users/:userId/posts", postsController.createPost);
 router.get("/users/:userId/posts", postsController.getPosts);
 router.get("/posts", postsController.getAllPosts);
+router.get("/post-translate", postsController.getTranslatedPost);
+router.get("/post-audio", postsController.getAudioFromPost);
 
 module.exports = router;
