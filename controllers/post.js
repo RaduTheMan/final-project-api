@@ -7,6 +7,74 @@ const detectLanguage = require("../util/functions").detectLanguage;
 const getAudioFromText = require("../util/functions").getAudioFromText;
 const uploadToBucket = require("../util/upload-to-bucket");
 
+/**
+ * @swagger
+ * components:
+ *      schemas:
+ *        Post:
+ *          type: object
+ *          properties:
+ *              content:
+ *                  type: string
+ *              date:
+ *                  type: number
+ *              imgUrl:
+ *                  type: string
+ *              name:
+ *                  type: string
+ *              title:
+ *                  type: string
+ *              userId:
+ *                  type: string
+ *              userImgUrl:
+ *                  type: string
+ *          example:
+ *                content: string
+ *                date: number
+ *                imgUrl: string
+ *                name: string
+ *                title: string
+ *                userId: string
+ *                userImgUrl: string
+ */
+
+/**
+ * @swagger
+ * /api/users/{userId}/posts:
+ *  post:
+ *    description: Create post
+ *    parameters:
+ *          - in: path
+ *            name: userId
+ *            schema:
+ *                type: string
+ *            required: true
+ *    requestBody:
+ *        required: true
+ *        content: 
+ *            application/json:
+ *              schema:
+ *                  $ref: '#/components/schemas/Post' 
+ *    responses:
+ *        201:
+ *           description: Post uploaded
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        successMessage:
+ *                          type: string
+ *        500:
+ *          description: Post not uploaded
+ *          content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage:
+ *                          type: string
+ */
 exports.createPost = (req, res, next) => {
   const userId = req.params.userId;
   if ("image" in req.body) {
@@ -56,6 +124,36 @@ exports.createPost = (req, res, next) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/users/{userId}/posts:
+ *  get:
+ *    description: Get a user's posts
+ *    parameters:
+ *          - in: path
+ *            name: userId
+ *            schema:
+ *                type: string
+ *            required: true
+ *    responses:
+ *        200:
+ *           description: success message
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: array
+ *                      items:
+ *                        $ref: '#/components/schemas/Post'
+ *        500:
+ *           description: Error getting posts
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage:
+ *                          type: string
+ */
 exports.getPosts = (req, res, next) => {
   const userId = req.params.userId;
   postModel.findPostsByUserId(userId, null).then((response) => {
@@ -68,6 +166,30 @@ exports.getPosts = (req, res, next) => {
   });
 };
 
+/**
+ * @swagger
+ * /api/posts:
+ *  get:
+ *    description: Get a newest posts as feed
+ *    responses:
+ *        200:
+ *           description: success message
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: array
+ *                      items:
+ *                        $ref: '#/components/schemas/Post'
+ *        500:
+ *           description: Error getting posts
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage: 
+ *                          type: string
+ */
 exports.getAllPosts = (req, res, next) => {
   postModel.findAllPosts().then( response => {
     if (response) {
@@ -78,6 +200,46 @@ exports.getAllPosts = (req, res, next) => {
   });
 };
 
+/**
+ * @swagger
+ * /api/post-translate:
+ *  get:
+ *    description: Get translation of a text
+ *    parameters:
+ *          - in: query
+ *            name: originalTitle
+ *            schema:
+ *                type: string
+ *            required: true
+ *          - in: query
+ *            name: originalText
+ *            schema:
+ *                type: string
+ *            required: true
+ *          - in: query
+ *            name: target
+ *            schema:
+ *                type: string
+ *            required: true
+ *    responses:
+ *        200:
+ *           description: success message
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: array
+ *                      items:
+ *                        type: string
+ *        500:
+ *           description: Error translating test
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage: 
+ *                          type: string
+ */
 exports.getTranslatedPost = (req, res, next) => {
   const originalTitle = req.query.originalTitle;
   const originalText = req.query.originalText;
@@ -91,6 +253,39 @@ exports.getTranslatedPost = (req, res, next) => {
   });
 };
 
+/**
+ * @swagger
+ * /api/post-audio:
+ *  get:
+ *    description: Get audio from text
+ *    parameters:
+ *          - in: query
+ *            name: title
+ *            schema:
+ *                type: string
+ *            required: true
+ *          - in: query
+ *            name: content
+ *            schema:
+ *                type: string
+ *            required: true
+ *    responses:
+ *        200:
+ *           description: success message
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: string
+ *        500:
+ *           description: Error translating test
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage: 
+ *                          type: string
+ */
 exports.getAudioFromPost = (req, res, next) => {
   const title = req.query.title;
   const content = req.query.content;

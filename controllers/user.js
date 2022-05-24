@@ -46,6 +46,12 @@ const userModel = require("../models/user");
  *           content:
  *                application/json:
  *                      $ref: '#/components/schemas/User'
+ *        404:
+ *           description: User not found
+ *           content:
+ *                application/json:
+ *                    errorMessage:
+ *                      type: string
  */
 exports.getUser = (req, res, next) => {
   const userId = req.params.userId;
@@ -81,6 +87,10 @@ const defaultProfilePicture = 'https://picsum.photos/id/237/200/200';
  *    responses:
  *        201:
  *           description: success message
+ *           content:
+ *                application/json:
+ *                    successMessage:
+ *                      type: string
  */
 exports.createUser = (req, res, next) => {
   const data = req.body;

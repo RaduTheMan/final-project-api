@@ -25,10 +25,13 @@ const options = {
     servers: [
       {
         url: "http://localhost:8082"
+      },
+      {
+        url: "https://final-project-348717.lm.r.appspot.com"
       }
     ]
   },
-  apis: ["./controllers/user.js"]
+  apis: ["./controllers/*.js"]
 };
 
 const specs = swaggerJsDoc(options);

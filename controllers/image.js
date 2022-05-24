@@ -3,6 +3,43 @@ const uploadToBucket = require("../util/upload-to-bucket");
 const uploadProfile = require("../models/user");
 const { response } = require("express");
 
+/**
+ * @swagger
+ * /api/images/{userId}:
+ *  post:
+ *    description: Update user profile picture
+ *    parameters:
+ *          - in: path
+ *            name: id
+ *            schema:
+ *                type: string
+ *            required: true
+ *    requestBody:
+ *        required: true
+ *        content: 
+ *            application/json:
+ *              schema:
+ *                  type: string
+ *    responses:
+ *        201:
+ *           description: User profile picture updated
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        successMessage: 
+ *                          type: string
+ *        500:
+ *           description: User profile picture not updated
+ *           content:
+ *                application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        errorMessage: 
+ *                          type: string
+ */
 exports.uploadImage = (req, res, next) => {
   let extension = req.body.image.slice(11, 14);
   const userId = req.params.userId;
